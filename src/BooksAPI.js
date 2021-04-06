@@ -1,6 +1,4 @@
-
 const api = "https://reactnd-books-api.udacity.com"
-
 
 // Generate a unique token for storing your bookshelf data on the backend server.
 let token = localStorage.token
@@ -12,15 +10,18 @@ const headers = {
   'Authorization': token
 }
 
+export const getAll = () =>
+  fetch(`${api}/books`, { headers })
+    .then(res => res.json())
+    .then(data => data.books)
+    // only returns books that are currently on shelves
+    // not none
+
 export const get = (bookId) =>
   fetch(`${api}/books/${bookId}`, { headers })
     .then(res => res.json())
     .then(data => data.book)
 
-export const getAll = () =>
-  fetch(`${api}/books`, { headers })
-    .then(res => res.json())
-    .then(data => data.books)
 
 export const update = (book, shelf) =>
   fetch(`${api}/books/${book.id}`, {
@@ -31,7 +32,10 @@ export const update = (book, shelf) =>
     },
     body: JSON.stringify({ shelf })
   }).then(res => res.json())
-
+  // What does this return??
+// returns an object of arrays 
+// { currentlyReading: [...], wantToRead: [...], read: [...] }
+  
 export const search = (query) =>
   fetch(`${api}/search`, {
     method: 'POST',
@@ -42,3 +46,6 @@ export const search = (query) =>
     body: JSON.stringify({ query })
   }).then(res => res.json())
     .then(data => data.books)
+// return 20 books
+// returned books do not contain shelf info
+
