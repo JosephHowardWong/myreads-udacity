@@ -15,7 +15,7 @@ export const getAll = () =>
     .then(res => res.json())
     .then(data => data.books)
     // only returns books that are currently on shelves
-    // not none
+    // not "none"
 
 export const get = (bookId) =>
   fetch(`${api}/books/${bookId}`, { headers })

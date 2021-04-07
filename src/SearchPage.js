@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
 import * as BooksAPI from './BooksAPI'
 import Books from './Books'
 
@@ -35,13 +36,15 @@ class SearchPage extends Component {
                 
                 rObj["title"] = book.title
                 rObj["id"] = book.id
-                this.props.books.forEach(b => {
-                    if(b.id === book.id) {
-                        rObj["shelf"] = b.shelf
-                    } else {
-                        rObj["shelf"] = "none"
-                    }
-                })
+
+                let [ bookOnShelf ] = this.props.books.filter(bk => bk.id === book.id)
+                if(bookOnShelf) {
+                    rObj["shelf"] = bookOnShelf.shelf
+                } else {
+                    rObj["shelf"] = "none"
+                }
+                bookOnShelf = ""
+                
                 return rObj
             })
             this.setState(() => ({ books: booksMax20 }))
@@ -75,6 +78,11 @@ class SearchPage extends Component {
             </div>
         )
     }
+}
+
+SearchPage.propTypes = {
+    shelfChange: PropTypes.func,
+    books: PropTypes.array
 }
 
 export default SearchPage

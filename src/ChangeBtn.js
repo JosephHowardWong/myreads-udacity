@@ -1,31 +1,30 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
-class ChangeBtn extends Component {
-    
-    state = {
-        shelf: "move"
-    }
+const ChangeBtn = ({ shelfChange, book }) => {
 
-    handleChange = (e) => {
+    const handleChange = (e) => {
         e.preventDefault()
-        this.setState({ shelf: e.target.value })
-        this.props.shelfChange(this.props.book, e.target.value )
+        shelfChange(book, e.target.value )
     }
     
-    render() {
-        return (
-            <div className="shelf-change">
-                <label>Change Shelves?</label>
-                <select value={this.props.book.shelf} onChange={(e) => this.handleChange(e)} >
-                    <option value="move" disabled>Change Shelves ??</option>
-                    <option value="currentlyReading">Currently Reading</option>
-                    <option value="wantToRead">Want to Read</option>
-                    <option value="read">Read</option>
-                    <option value="none">None</option>
-                </select>
-            </div>
-        )
-    }
+    return (
+        <div className="shelf-change">
+            <label>Change Shelves?</label>
+            <select value={book.shelf} onChange={(e) => handleChange(e)} >
+                <option value="move" disabled>Change Shelves ??</option>
+                <option value="currentlyReading">Currently Reading</option>
+                <option value="wantToRead">Want to Read</option>
+                <option value="read">Read</option>
+                <option value="none">None</option>
+            </select>
+        </div>
+    )
+}
+
+ChangeBtn.propTypes = {
+    shelfChange: PropTypes.func,
+    book: PropTypes.object
 }
 
 export default ChangeBtn

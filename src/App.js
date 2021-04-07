@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
+import './App.css'
 import SearchPage from './SearchPage'
 import BookShelf from './BookShelf'
-import './App.css'
 
-class BooksApp extends Component {
+class App extends Component {
   state = {
     books: []
   }
 
   componentDidMount() {
     BooksAPI.getAll().then(backBooks => {
-      
-      const books = backBooks.map(book => {
+      const shelfBooks = backBooks.map(book => {
         let rObj = {}
         if(book.authors) {
           rObj["authors"] = book.authors
@@ -30,7 +29,7 @@ class BooksApp extends Component {
         rObj["id"] = book.id
         return rObj
       })
-      this.setState({books: books})
+      this.setState(() => ({books: shelfBooks}))
     })
   }
   
@@ -65,4 +64,4 @@ class BooksApp extends Component {
   }
 }
 
-export default BooksApp
+export default App
